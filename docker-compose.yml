@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:3
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./volumes/mongo:/data/db
+    logging:
+      driver: none
+  front:
+    image: node:10
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on:
+      - mongo
+    volumes:
+      - ./front:/app
+    working_dir: /app
+    command: sleep infinity
+  web:
+    image: node:10
+    ports:
+      - "1337:1337"
+    depends_on:
+      - mongo
+    volumes:
+      - ./web:/app
+    working_dir: /app
+    command: sleep infinity
+  nginx:
+    image: nginx:1
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+    logging:
+      driver: none

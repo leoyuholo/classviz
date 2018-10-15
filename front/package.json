@@ -1,0 +1,10 @@
+{
+  "name": "classviz-front",
+  "scripts": {
+    "dev": "browser-sync start -c bs-config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.3"
+  }
+}
