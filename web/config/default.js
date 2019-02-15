@@ -16,5 +16,6 @@ module.exports = {
     appName: 'ClassViz',
     user: 'user',
     pass: 'pass'
-  }
+  } 
 }
+ 

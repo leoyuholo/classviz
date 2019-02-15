@@ -15,3 +15,18 @@ Run `docker-compose exec web /bin/bash` to backend container. Also run `yarn` to
 Visit `localhost:8080` to access the system, `localhost:8080/dashboard` to access [Parse Dashboard](https://github.com/parse-community/parse-dashboard).
 
 You may edit `docker-compose.yaml` to run different commands.
+ 
+Run:
+
+    # cd ~/classviz/front
+    # ~/docker-compose exec front /bin/bash
+    # yarn run dev
+    Open a new terminal or use command tmux a
+    Run:
+    # cd ~/classviz/web
+    # ~/docker-compose exec web /bin/bash
+    # yarn run dev
+    Local computer:
+    # ssh -L 8080:127.0.0.1:8080 user@143.*.*.*
+
+HKUST VisLab http://vis.cse.ust.hk/

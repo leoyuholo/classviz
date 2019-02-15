@@ -15,7 +15,7 @@ const parse = new ParseServer({
   appName: config.get('parseServer.appName'),
   allowClientClassCreation: config.get('parseServer.allowClientClassCreation')
 })
-
+ 
 const dashboard = new ParseDashboard({
   apps: [{
     appId: config.get('parseDashboard.appId'),
