@@ -15,7 +15,7 @@
 hostname: alysvr9.***.com
 ip address: \*\*.\*\*.209.120
 ```
-Scripts location
+Script location
 ```
 /opt/***/***/html/***/collect.js
 ```
