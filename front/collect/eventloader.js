@@ -37,6 +37,7 @@ export var eventLoader = {
         }, 200)
     },
     iframeCheck: function(win, doc) {
+        /* Inject event recorder scripts to iframe*/
         /* Check if iframe exists in a new document*/
         if (win.location && win.location.href && win.location.href.indexOf("http") >= 0) {
             let localFrames = doc.getElementsByTagName("iframe");
