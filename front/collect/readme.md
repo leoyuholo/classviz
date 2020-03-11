@@ -4,7 +4,7 @@
     * If you want to change the API, please refer to the old one. It is provided by staff Leon.
 
 2. eventloader.js
-    * Inject script to iframe. 
+    * Inject script to iframe and all sub-iframe if exists.
     * Define available events to listen and record.
     * Use datarecorder.js to collect clickstream data.
 
