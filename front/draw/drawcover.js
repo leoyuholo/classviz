@@ -1,4 +1,4 @@
-import {commonTool} from './common.js';
+import { eventLoader } from './eventloader.js';
 require('./simpleheat.js');
 export var coverMap = {
         miniWidth: 300,
@@ -12,7 +12,7 @@ export var coverMap = {
             var heatmapDIV = document.createElement("div");
             heatmapDIV.innerHTML = `
                                 <div id="heatmapWrap" style="z-index:9999;background:rgba(192,192,192,0.2);pointer-events: none;opacity: 1; width: `+bdw+`px; height: `+bdh+`px; left: 0px; top: 0px; display: block;position:absolute">
-                                    <canvas id="heatmap" width="`+bdw+`" height="`+bdh+`" style="position: absolute; left: 0px; top: 0px;"></canvas>
+                                    <canvas id="heatmap" width="`+bdw+`" height="`+bdh+`" style="position: absolute; left: 240px; top: 80px;"></canvas>
                                 </div>
                                 <div class="sidenav">
                                     <form style="margin:0px">
@@ -23,8 +23,8 @@ export var coverMap = {
                                     </form>
                                     <div class="options">
                                     <p class="heatmapconfig">Heatmap config</p>
-                                        <label>Radius: </label><input type="range" id="id_radius" value="25" min="10" max="50" /><br />
-                                        <label style="padding-right: 18px;">Blur: </label><input type="range" id="id_blur" value="15" min="10" max="50" />
+                                        <label>Radius: </label><input type="range" id="id_radius" value="25" min="1" max="50" /><br />
+                                        <label style="padding-right: 18px;">Blur: </label><input type="range" id="id_blur" value="15" min="1" max="50" />
                                     </div>
                                     <p class="minioverview">Mini heatmap for overview</p>
                                     <canvas id="miniheatmap" width="`+coverMap.miniWidth+`px" height="`+bdh+`px" style="background:rgba(192,192,192,0.2)"></canvas>
@@ -36,17 +36,17 @@ export var coverMap = {
             var newarr = [];
             for(var i=0;i<arrays.length;i++){
                 var obj = {};
-                if(commonTool.windowFrames[arrays[i][column["d_source"]]]){
+                if(eventLoader.windowFrames[arrays[i][column["d_source"]]]){
                     if(type == "mousemove"){
                         if(arrays[i][column["type"]] == "mousemove"){
-                            obj["x"] = commonTool.windowFrames[arrays[i][column["d_source"]]]["X"] + arrays[i][column["pageX"]];
-                            obj["y"] = commonTool.windowFrames[arrays[i][column["d_source"]]]["Y"] + arrays[i][column["pageY"]];
+                            obj["x"] = eventLoader.windowFrames[arrays[i][column["d_source"]]]["X"] + arrays[i][column["pageX"]];
+                            obj["y"] = eventLoader.windowFrames[arrays[i][column["d_source"]]]["Y"] + arrays[i][column["pageY"]];
                             newarr.push([obj.x,obj.y,1])
                         }
                     }else{
                         if(arrays[i][column["type"]] == "mousedown" || arrays[i][column["type"]] == "mouseup"){
-                            obj["x"] = commonTool.windowFrames[arrays[i][column["d_source"]]]["X"] + arrays[i][column["pageX"]] ;
-                            obj["y"] = commonTool.windowFrames[arrays[i][column["d_source"]]]["Y"] + arrays[i][column["pageY"]] ;
+                            obj["x"] = eventLoader.windowFrames[arrays[i][column["d_source"]]]["X"] + arrays[i][column["pageX"]] ;
+                            obj["y"] = eventLoader.windowFrames[arrays[i][column["d_source"]]]["Y"] + arrays[i][column["pageY"]] ;
                             newarr.push([obj.x,obj.y,1])
                         }
                     }
@@ -87,11 +87,11 @@ export var coverMap = {
         start: function(qid){
             // var id = url.match(/[a-z0-9]{15,20}/g)[0];
             var xhr = new XMLHttpRequest();
-            xhr.open('GET','/api/student/question/dataCollect/getModel1?questionId='+qid, true);
+            // xhr.open('GET','/api/student/question/dataCollect/getModel1?questionId='+qid, true);
+            xhr.open('POST','http://127.0.0.1:5000/heatmap?questionId=' + qid, true);
             xhr.onreadystatechange=function(){
                 if (xhr.readyState == 4 && xhr.status == 200){
-                    // console.log(xmlhttp.responseText)
-                    var returnData = JSON.parse(xhr.responseText);
+                    var returnData = JSON.parse(xhr.responseText.replace(/'/g,"\""));
                     for(var i=0;i<returnData["columnList"].length;i++){
                         coverMap.columnSet[returnData["columnList"][i]] = i
                     };
@@ -112,6 +112,6 @@ export var coverMap = {
             }
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send();
-        }
+        },
 }
 coverMap.initHeatMapHtml();
