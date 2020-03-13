@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "trumptech",
+    "version": "1.0",
+    "description": "Trumptech data collection tools",
+    "browser_action": {},
+    "permissions": [
+        "http://*/",
+        "bookmarks",
+        "tabs",
+        "history"
+    ],
+    "content_scripts": [{
+        "matches": ["https://www.w3schools.com/*"],
+        "js": ["trumptech.js"]
+    }]
+}
