@@ -36,7 +36,7 @@ export var dataRecorder = {
         dataRecorder.framepool.push(track)
         dataRecorder.count++;
         /* Accumulate records to 200, and send the package */
-        if (dataRecorder.count > 199) {
+        if (dataRecorder.count > 19) {
             dataRecorder.count = 0;
             dataRecorder.submitData();
         }

@@ -2,6 +2,7 @@ import { dataRecorder } from './datarecorder.js';
 export var eventLoader = {
     windowFrames: {},
     definedEvents: {
+        /* define mouse events */
         handleMouseMove: function(event) {
             dataRecorder.track(event)
         },
@@ -24,9 +25,29 @@ export var eventLoader = {
             if (!"result" in event) {
                 dataRecorder.track(event)
             }
+        },
+        /* define touch events */
+        handleTouchmove: function(event) {
+            dataRecorder.track(event)
+        },
+        handleTouchstart: function(event) {
+            dataRecorder.track(event)
+        },
+        handleTouchend: function(event) {
+            dataRecorder.track(event)
+        },
+        handleTouchleave: function(event) {
+            dataRecorder.track(event)
+        },
+        handleMouseLeave: function(event) {
+            dataRecorder.track(event)
+        },
+        handleTouchcancel: function(event) {
+            dataRecorder.track(event)
         }
     },
     init: function() {
+        eventLoader.initWindowEvent(window)
         eventLoader.windowFrames[window.location.href] = { "window": window, "document": document, "Y": 0, "X": 0 };
         eventLoader.iframeCheckStart()
     },
@@ -34,7 +55,7 @@ export var eventLoader = {
         setTimeout(() => {
             eventLoader.iframeCheck(window, document);
             eventLoader.iframeCheckStart();
-        }, 200)
+        }, 500)
     },
     iframeCheck: function(win, doc) {
         /* Inject event recorder scripts to iframe*/
@@ -57,14 +78,20 @@ export var eventLoader = {
     },
     initWindowEvent: function(win) {
         /* Add events, collect interaction data */
-        win.onmousemove = _.throttle(eventLoader.definedEvents.handleMouseMove, 20);
-        win.onclick = eventLoader.definedEvents.handleMouseClick;
-        win.onmousedown = eventLoader.definedEvents.handleMouseDown;
-        win.onmouseup = eventLoader.definedEvents.handleMouseUp;
-        // win.onmousemove = _.throttle(eventLoader.definedEvents.handleMouseMove, 50);
-        // win.onclick = _.throttle(eventLoader.definedEvents.handleMouseClick, 50);
-        // win.onmousedown = _.throttle(eventLoader.definedEvents.handleMouseDown, 50);
-        // win.onmouseup = _.throttle(eventLoader.definedEvents.handleMouseUp, 50);
+        if (dataRecorder.hasTouch) {
+            /* Touch Events */
+            win.touchmove = _.throttle(eventLoader.definedEvents.handleTouchmove, 20);
+            win.touchstart = eventLoader.definedEvents.handleTouchstart;
+            win.touchend = eventLoader.definedEvents.handleTouchend;
+            win.touchleave = eventLoader.definedEvents.handleTouchleave;
+            win.touchcancel = eventLoader.definedEvents.handleTouchcancel;
+        } else {
+            /* Mouse Events */
+            win.onmousemove = _.throttle(eventLoader.definedEvents.handleMouseMove, 20);
+            win.onclick = eventLoader.definedEvents.handleMouseClick;
+            win.onmousedown = eventLoader.definedEvents.handleMouseDown;
+            win.onmouseup = eventLoader.definedEvents.handleMouseUp;
+        }
     }
 }
 eventLoader.init();
