@@ -38,3 +38,4 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
     logging:
       driver: none
+  
