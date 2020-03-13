@@ -80,11 +80,11 @@ export var eventLoader = {
         /* Add events, collect interaction data */
         if (dataRecorder.hasTouch) {
             /* Touch Events */
-            win.touchmove = _.throttle(eventLoader.definedEvents.handleTouchmove, 20);
-            win.touchstart = eventLoader.definedEvents.handleTouchstart;
-            win.touchend = eventLoader.definedEvents.handleTouchend;
-            win.touchleave = eventLoader.definedEvents.handleTouchleave;
-            win.touchcancel = eventLoader.definedEvents.handleTouchcancel;
+            win.ontouchmove = _.throttle(eventLoader.definedEvents.handleTouchmove, 20);
+            win.ontouchstart = eventLoader.definedEvents.handleTouchstart;
+            win.ontouchend = eventLoader.definedEvents.handleTouchend;
+            win.ontouchleave = eventLoader.definedEvents.handleTouchleave;
+            win.ontouchcancel = eventLoader.definedEvents.handleTouchcancel;
         } else {
             /* Mouse Events */
             win.onmousemove = _.throttle(eventLoader.definedEvents.handleMouseMove, 20);
